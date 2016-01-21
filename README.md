@@ -9,7 +9,9 @@ Get bus
 [![devDependency Status](https://david-dm.org/gabrielstuff/idle-js/dev-status.svg)](https://david-dm.org/gabrielstuff/idle-js#info=devDependencies)
 
 
-# Testing with webpack
+# Testing
+ 
+Webpack:
 Using webpack, create an entry.js file with the following code:
 ```
   idleJs = require("./src/idle-js.js")
@@ -35,7 +37,7 @@ And an index file with the following code:
 
 Run the command webpack ./entry.js bundle.js and open index.html in your browser.
 
-# Here is an index.html code to test it with a browser and a <script> tag the file you are looking for is in the dist directory
+With <script> tag: (the file you are looking for is in the dist directory)
 
 ```
 <!DOCTYPE html>
