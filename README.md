@@ -4,14 +4,15 @@
 
 # Testing
  
-Webpack:  
-1. Run the command webpack ./test/entry.js ./test/bundle.js. 
-2. Open ./test/index.html in your browser.
+Webpack:
+  
+* Run the command webpack ./test/entry.js ./test/bundle.js. 
+* Open ./test/index.html in your browser.
 
 In browser:  
-1.  Open ./test/vanilla.html
+* Open ./test/vanilla.html
 
 Through npm:
 
-1. npm install idle.js --save
-2. In node_modules/idle-js you will have access to library.
+* npm install idle.js --save
+* In node_modules/idle-js you will have access to library.
