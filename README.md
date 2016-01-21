@@ -37,7 +37,7 @@ And an index file with the following code:
 
 Run the command webpack ./entry.js bundle.js and open index.html in your browser.
 
-With <script> tag: (the file you are looking for is in the dist directory)
+With script tag: (the file you are looking for is in the dist directory)
 
 ```
 <!DOCTYPE html>
