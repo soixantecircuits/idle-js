@@ -9,7 +9,7 @@ Webpack:
 2. Open ./test/index.html in your browser.
 
 In browser:  
-1.  Open ./test/vanilla.idle.html
+1.  Open ./test/vanilla.html
 
 Through npm:
 
