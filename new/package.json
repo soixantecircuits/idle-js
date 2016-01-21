@@ -1,0 +1,14 @@
+{
+  "name": "new",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Massamba Diouf <massambadiouf@gmail.com> (https://github.com/MassambaDiouf)",
+  "license": "ISC",
+  "dependencies": {
+    "idle-js": "0.0.1"
+  }
+}

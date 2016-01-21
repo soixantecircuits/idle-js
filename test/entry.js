@@ -1,7 +1,7 @@
-idleJs = require("./src/idle-js.js")
+var IdleJs = require('../src/Idle.js')
 console.log('hello')
-new idleJs({
-    onIdle: function (){
-                  console.log('idle !');
-                    }
-}).start();
+new IdleJs({
+  onIdle: function () {
+    console.log('idle !')
+  }
+}).start()

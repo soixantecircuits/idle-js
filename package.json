@@ -2,7 +2,7 @@
   "name": "idle-js",
   "version": "0.0.1",
   "description": "Get bus",
-  "main": "dist/idle-js.js",
+  "main": "dist/Idle.js",
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
@@ -13,16 +13,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gabrielstuff/idle-js.git"
+    "url": "https://github.com/soixantecircuits/Idle.js"
   },
   "keywords": [],
-  "author": "gabrielstuff <gabriel@soixantecircuits.fr>",
+  "author": "hugohil <hugo@soixantecircuits.fr>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gabrielstuff/idle-js/issues"
+    "url": "https://github.com/soixantecircuits/Idle.js/issues"
   },
-  "homepage": "https://github.com/gabrielstuff/idle-js",
+  "homepage": "https://github.com/soixantecircuits/Idle.js",
+  "contributors": [
+    "massambadiouf <mass@soixantecircuits.fr> (https://github.com/massambadiouf)",
+    "gabrielstuff <gabriel@soixantecircuits.fr> (http://twitter.com/gabrielstuff)",
+    "hugohil <hugo@soixantecircuits.fr> (https://github.com/hugohil)"
+  ],
   "devDependencies": {
+    "babel": "^6.3.26",
     "babel-core": "^6.4.5",
     "babel-eslint": "^4.1.6",
     "babel-loader": "^6.2.0",
@@ -56,7 +62,7 @@
     "webpack-stream": "^3.1.0"
   },
   "babelBoilerplateOptions": {
-    "entryFileName": "idle-js",
-    "mainVarName": "idleJs"
+    "entryFileName": "Idle.js",
+    "mainVarName": "IdleJs"
   }
 }
