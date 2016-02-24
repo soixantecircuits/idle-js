@@ -46,18 +46,27 @@
 
 	var IdleJs = __webpack_require__(1)
 	console.log('hello')
-	new IdleJs({
+	var idle = new IdleJs({
+	  idle: 2000,
 	  onIdle: function () {
-	    console.log('idle !')
+	    console.log('entry.js - idle')
+	  },
+	  onActive: function () {
+	    console.log('entry.js - active')
+	  },
+	  onHide: function () {
+	    console.log('entry.js - hide')
+	  },
+	  onShow: function () {
+	    console.log('entry.js - show')
 	  }
-	}).start()
+	}).start();
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	
 	'use strict'
 	var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
 	  events.forEach(function (event) {

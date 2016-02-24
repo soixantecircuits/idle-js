@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["idleJs"] = factory();
+		exports["IdleJs"] = factory();
 	else
-		root["idleJs"] = factory();
+		root["IdleJs"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,6 +56,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -79,7 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, IdleJs);
 	
 	    this.defaults = {
-	      idle: 60000, // idle time in ms
+	      idle: 10000, // idle time in ms
 	      events: ['mousemove', 'keydown', 'mousedown', 'touchstart'], // events that will trigger the idle resetter
 	      onIdle: function onIdle() {}, // callback function to be executed after idle time
 	      onActive: function onActive() {}, // callback function to be executed after back form idleness
@@ -89,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      startAtIdle: false, // set it to true if you want to start in the idle state
 	      recurIdleCall: false
 	    };
-	    this.settings = Object.assign({}, this.defaults, options);
+	    this.settings = _extends({}, this.defaults, options);
 	    this.idle = this.settings.startAtIdle;
 	    this.visible = !this.settings.startAtIdle;
 	    this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange'];
@@ -158,4 +160,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=idle-js.js.map
+//# sourceMappingURL=idle.js.map

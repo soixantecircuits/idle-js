@@ -57,7 +57,8 @@ function lintGulpfile() {
 }
 
 function build() {
-  return gulp.src(path.join('src', config.entryFileName + '.js'))
+  return gulp.src(path.join('src', config.entryFileName))
+  // return gulp.src('./src/idle.js')
     .pipe($.plumber())
     .pipe(webpackStream({
       output: {
@@ -111,11 +112,11 @@ function coverage(done) {
     });
 }
 
-const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
+const watchFiles = ['src/**/*', 'example/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
 
 // Run the headless unit tests as you make changes.
 function watch() {
-  gulp.watch(watchFiles, ['test']);
+  gulp.watch(watchFiles, ['example']);
 }
 
 function testBrowser() {

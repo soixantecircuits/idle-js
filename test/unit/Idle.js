@@ -1,18 +1,18 @@
-import idleJs from '../../src/Idle';
+import IdleJs from '../../src/Idle';
 
-describe('idleJs', () => {
+describe('IdleJs', () => {
   describe('Greet function', () => {
     beforeEach(() => {
-      spy(idleJs, 'greet');
-      idleJs.greet();
+      spy(IdleJs, 'greet');
+      IdleJs.greet();
     });
 
     it('should have been run once', () => {
-      expect(idleJs.greet).to.have.been.calledOnce;
+      expect(IdleJs.greet).to.have.been.calledOnce;
     });
 
     it('should have always returned hello', () => {
-      expect(idleJs.greet).to.have.always.returned('hello');
+      expect(IdleJs.greet).to.have.always.returned('hello');
     });
   });
 });

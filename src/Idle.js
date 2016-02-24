@@ -1,4 +1,3 @@
-
 'use strict'
 var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
   events.forEach(function (event) {
