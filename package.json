@@ -2,7 +2,7 @@
   "name": "idle-js",
   "version": "0.1.2",
   "description": "Detect user idleness",
-  "main": "dist/idle.js",
+  "main": "dist/Idle.js",
   "scripts": {
     "test": "gulp",
     "lint": "gulp lint",
