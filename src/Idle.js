@@ -86,6 +86,11 @@ class IdleJs {
 	this.settings.keepTracking = false
 	this.resetTimeout(this.lastId, this.settings)
   }
+
+  restart() {
+	  this.stop();
+	  this.start();
+  }
 }
 
 module.exports = IdleJs

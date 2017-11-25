@@ -156,6 +156,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.settings.keepTracking = false;
 	      this.resetTimeout(this.lastId, this.settings);
 	    }
+	  }, {
+	    key: 'restart',
+	    value: function restart() {
+	      this.stop();
+	      this.start();
+	    }
 	  }]);
 	
 	  return IdleJs;
