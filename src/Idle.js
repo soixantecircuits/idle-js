@@ -80,7 +80,7 @@ class IdleJs {
       this.lastId = this.resetTimeout(this.lastId, this.settings)
     }.bind(this))
     if (this.settings.onShow || this.settings.onHide) {
-		this.eventHandlers = bulkAddEventListener(document, this.visibilityEvents, function (event) {
+		var moreEventHandlers = bulkAddEventListener(document, this.visibilityEvents, function (event) {
         if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
           if (this.visible) {
             this.visible = false
@@ -92,7 +92,9 @@ class IdleJs {
             this.settings.onShow.call()
           }
         }
-      }.bind(this))
+	  }.bind(this))
+	  
+	  Object.assign(this.eventHandlers, moreEventHandlers);
     }
   }
 
