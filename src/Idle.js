@@ -80,6 +80,12 @@ class IdleJs {
       }.bind(this))
     }
   }
+
+  stop() {
+	bulkRemoveEventListener(window, this.settings.events)
+	this.settings.keepTracking = false
+	this.resetTimeout(this.lastId, this.settings)
+  }
 }
 
 module.exports = IdleJs

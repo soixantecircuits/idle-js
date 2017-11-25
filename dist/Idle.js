@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -149,6 +149,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }.bind(this));
 	      }
 	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      bulkRemoveEventListener(window, this.settings.events);
+	      this.settings.keepTracking = false;
+	      this.resetTimeout(this.lastId, this.settings);
+	    }
 	  }]);
 	
 	  return IdleJs;
@@ -156,8 +163,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = IdleJs;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
-//# sourceMappingURL=idle.js.map
+//# sourceMappingURL=Idle.js.map
