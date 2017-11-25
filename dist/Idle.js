@@ -79,7 +79,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	var bulkRemoveEventListener = function bulkRemoveEventListener(object, eventHandlers) {
-	  console.log(eventHandlers);
 	
 	  Object.keys(eventHandlers).forEach(function (eventName) {
 	    var eventHandler = eventHandlers[eventName];

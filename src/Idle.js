@@ -16,7 +16,6 @@ var bulkAddEventListener = function bulkAddEventListener (object, events, callba
   }
   
   var bulkRemoveEventListener = function bulkRemoveEventListener (object, eventHandlers) {
-	  console.log(eventHandlers);
 
 	Object.keys(eventHandlers).forEach(function(eventName) {
 		var eventHandler = eventHandlers[eventName];
