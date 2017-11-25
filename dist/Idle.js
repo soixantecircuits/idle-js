@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	'use strict';
 	
@@ -63,16 +63,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var bulkAddEventListener = function bulkAddEventListener(object, events, callback) {
+	  var eventHandlers = {};
+	
 	  events.forEach(function (event) {
-	    object.addEventListener(event, function (event) {
+	
+	    var handler = function handler(event) {
 	      callback(event);
-	    });
+	    };
+	
+	    eventHandlers[event] = handler;
+	    object.addEventListener(event, handler);
 	  });
+	
+	  return eventHandlers;
 	};
 	
-	var bulkRemoveEventListener = function bulkRemoveEventListener(object, events) {
-	  events.forEach(function (event) {
-	    object.removeEventListener(event);
+	var bulkRemoveEventListener = function bulkRemoveEventListener(object, eventHandlers) {
+	
+	  Object.keys(eventHandlers).forEach(function (eventName) {
+	    var eventHandler = eventHandlers[eventName];
+	    object.removeEventListener(eventName, eventHandler);
 	  });
 	};
 	
@@ -90,10 +100,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      keepTracking: true, // set it to false of you want to track only once
 	      startAtIdle: false, // set it to true if you want to start in the idle state
 	      recurIdleCall: false
-	    };
+	
+	      // references to events, for removing later.
+	    };this.eventHandlers = {};
 	    this.settings = _extends({}, this.defaults, options);
 	    this.idle = this.settings.startAtIdle;
-	    this.visible = !this.settings.startAtIdle;
+	    this.visible = !document.hidden;
 	    this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange'];
 	    this.lastId = null;
 	  }
@@ -124,17 +136,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'start',
 	    value: function start() {
+	      var _this = this;
+	
 	      window.addEventListener('idle:stop', function (event) {
-	        bulkRemoveEventListener(window, this.settings.events);
-	        this.settings.keepTracking = false;
-	        this.resetTimeout(this.lastId, this.settings);
+	        _this.stop();
 	      });
+	
 	      this.lastId = this.timeout(this.settings);
-	      bulkAddEventListener(window, this.settings.events, function (event) {
+	      this.eventHandlers = bulkAddEventListener(window, this.settings.events, function (event) {
 	        this.lastId = this.resetTimeout(this.lastId, this.settings);
 	      }.bind(this));
 	      if (this.settings.onShow || this.settings.onHide) {
-	        bulkAddEventListener(document, this.visibilityEvents, function (event) {
+	        var moreEventHandlers = bulkAddEventListener(document, this.visibilityEvents, function (event) {
 	          if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
 	            if (this.visible) {
 	              this.visible = false;
@@ -147,7 +160,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          }
 	        }.bind(this));
+	
+	        _extends(this.eventHandlers, moreEventHandlers);
 	      }
+	    }
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      bulkRemoveEventListener(window, this.eventHandlers);
+	      this.settings.keepTracking = false;
+	      this.resetTimeout(this.lastId, this.settings);
+	
+	      this.idle = this.settings.startAtIdle;
+	      this.visible = !document.hidden;
+	      this.lastId = null;
+	    }
+	  }, {
+	    key: 'restart',
+	    value: function restart() {
+	      this.stop();
+	      this.start();
 	    }
 	  }]);
 	
@@ -156,8 +188,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = IdleJs;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
-//# sourceMappingURL=idle.js.map
+//# sourceMappingURL=Idle.js.map
