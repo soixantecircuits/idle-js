@@ -79,6 +79,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	var bulkRemoveEventListener = function bulkRemoveEventListener(object, eventHandlers) {
+	  console.log(eventHandlers);
+	
 	  Object.keys(eventHandlers).forEach(function (eventName) {
 	    var eventHandler = eventHandlers[eventName];
 	    object.removeEventListener(eventName, eventHandler);
@@ -135,11 +137,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'start',
 	    value: function start() {
+	      var _this = this;
+	
 	      window.addEventListener('idle:stop', function (event) {
-	        bulkRemoveEventListener(window, this.settings.events);
-	        this.settings.keepTracking = false;
-	        this.resetTimeout(this.lastId, this.settings);
+	        _this.stop();
 	      });
+	
 	      this.lastId = this.timeout(this.settings);
 	      this.eventHandlers = bulkAddEventListener(window, this.settings.events, function (event) {
 	        this.lastId = this.resetTimeout(this.lastId, this.settings);
@@ -163,7 +166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'stop',
 	    value: function stop() {
-	      bulkRemoveEventListener(window, this.settings.events);
+	      bulkRemoveEventListener(window, this.eventHandlers);
 	      this.settings.keepTracking = false;
 	      this.resetTimeout(this.lastId, this.settings);
 	    }

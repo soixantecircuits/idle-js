@@ -16,6 +16,8 @@ var bulkAddEventListener = function bulkAddEventListener (object, events, callba
   }
   
   var bulkRemoveEventListener = function bulkRemoveEventListener (object, eventHandlers) {
+	  console.log(eventHandlers);
+
 	Object.keys(eventHandlers).forEach(function(eventName) {
 		var eventHandler = eventHandlers[eventName];
 		object.removeEventListener(eventName, eventHandler);
@@ -67,11 +69,12 @@ class IdleJs {
   }
 
   start () {
+	let _this = this;
+
     window.addEventListener('idle:stop', function (event) {
-      bulkRemoveEventListener(window, this.settings.events)
-      this.settings.keepTracking = false
-      this.resetTimeout(this.lastId, this.settings)
-    })
+		_this.stop();
+	})
+	
     this.lastId = this.timeout(this.settings)
     this.eventHandlers = bulkAddEventListener(window, this.settings.events, function (event) {
       this.lastId = this.resetTimeout(this.lastId, this.settings)
@@ -94,7 +97,7 @@ class IdleJs {
   }
 
   stop() {
-	bulkRemoveEventListener(window, this.settings.events)
+	bulkRemoveEventListener(window, this.eventHandlers)
 	this.settings.keepTracking = false
 	this.resetTimeout(this.lastId, this.settings)
   }
