@@ -63,16 +63,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var bulkAddEventListener = function bulkAddEventListener(object, events, callback) {
+	  var eventHandlers = {};
+	
 	  events.forEach(function (event) {
-	    object.addEventListener(event, function (event) {
+	
+	    var handler = function handler(event) {
 	      callback(event);
-	    });
+	    };
+	
+	    eventHandlers[event] = handler;
+	    object.addEventListener(event, handler);
 	  });
+	
+	  return eventHandlers;
 	};
 	
-	var bulkRemoveEventListener = function bulkRemoveEventListener(object, events) {
-	  events.forEach(function (event) {
-	    object.removeEventListener(event);
+	var bulkRemoveEventListener = function bulkRemoveEventListener(object, eventHandlers) {
+	  Object.keys(eventHandlers).forEach(function (eventName) {
+	    var eventHandler = eventHandlers[eventName];
+	    object.removeEventListener(eventName, eventHandler);
 	  });
 	};
 	
@@ -90,7 +99,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      keepTracking: true, // set it to false of you want to track only once
 	      startAtIdle: false, // set it to true if you want to start in the idle state
 	      recurIdleCall: false
-	    };
+	
+	      // references to events, for removing later.
+	    };this.eventHandlers = {};
 	    this.settings = _extends({}, this.defaults, options);
 	    this.idle = this.settings.startAtIdle;
 	    this.visible = !this.settings.startAtIdle;
@@ -130,11 +141,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.resetTimeout(this.lastId, this.settings);
 	      });
 	      this.lastId = this.timeout(this.settings);
-	      bulkAddEventListener(window, this.settings.events, function (event) {
+	      this.eventHandlers = bulkAddEventListener(window, this.settings.events, function (event) {
 	        this.lastId = this.resetTimeout(this.lastId, this.settings);
 	      }.bind(this));
 	      if (this.settings.onShow || this.settings.onHide) {
-	        bulkAddEventListener(document, this.visibilityEvents, function (event) {
+	        this.eventHandlers = bulkAddEventListener(document, this.visibilityEvents, function (event) {
 	          if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
 	            if (this.visible) {
 	              this.visible = false;
