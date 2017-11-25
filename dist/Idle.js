@@ -105,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };this.eventHandlers = {};
 	    this.settings = _extends({}, this.defaults, options);
 	    this.idle = this.settings.startAtIdle;
-	    this.visible = !this.settings.startAtIdle;
+	    this.visible = !document.hidden;
 	    this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange'];
 	    this.lastId = null;
 	  }
@@ -172,7 +172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.resetTimeout(this.lastId, this.settings);
 	
 	      this.idle = this.settings.startAtIdle;
-	      this.visible = !this.settings.startAtIdle;
+	      this.visible = !document.hidden;
 	      this.lastId = null;
 	    }
 	  }, {

@@ -1,6 +1,6 @@
 'use strict'
 var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
-	var eventHandlers = {};
+	var eventHandlers = {}
 
 	events.forEach(function (event) {
 	  
@@ -8,19 +8,19 @@ var bulkAddEventListener = function bulkAddEventListener (object, events, callba
 		  callback(event)
 	  }
   
-	  eventHandlers[event] = handler;
-	  object.addEventListener(event, handler);
+	  eventHandlers[event] = handler
+	  object.addEventListener(event, handler)
 	})
 
-	return eventHandlers;
+	return eventHandlers
   }
   
   var bulkRemoveEventListener = function bulkRemoveEventListener (object, eventHandlers) {
 
 	Object.keys(eventHandlers).forEach(function(eventName) {
-		var eventHandler = eventHandlers[eventName];
-		object.removeEventListener(eventName, eventHandler);
-	});
+		var eventHandler = eventHandlers[eventName]
+		object.removeEventListener(eventName, eventHandler)
+	})
   }
 
 class IdleJs {
@@ -38,10 +38,10 @@ class IdleJs {
 	}
 	
 	// references to events, for removing later.
-	this.eventHandlers = {};
+	this.eventHandlers = {}
     this.settings = Object.assign({}, this.defaults, options)
     this.idle = this.settings.startAtIdle
-    this.visible = !this.settings.startAtIdle
+    this.visible = !document.hidden
     this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange']
     this.lastId = null
   }
@@ -68,10 +68,10 @@ class IdleJs {
   }
 
   start () {
-	let _this = this;
+	let _this = this
 
     window.addEventListener('idle:stop', function (event) {
-		_this.stop();
+		_this.stop()
 	})
 	
     this.lastId = this.timeout(this.settings)
@@ -93,7 +93,7 @@ class IdleJs {
         }
 	  }.bind(this))
 	  
-	  Object.assign(this.eventHandlers, moreEventHandlers);
+	  Object.assign(this.eventHandlers, moreEventHandlers)
     }
   }
 
@@ -103,13 +103,13 @@ class IdleJs {
 	this.resetTimeout(this.lastId, this.settings)
 
     this.idle = this.settings.startAtIdle
-    this.visible = !this.settings.startAtIdle
+    this.visible = !document.hidden
     this.lastId = null
   }
 
   restart() {
-	  this.stop();
-	  this.start();
+	  this.stop()
+	  this.start()
   }
 }
 
