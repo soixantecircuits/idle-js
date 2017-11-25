@@ -170,6 +170,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      bulkRemoveEventListener(window, this.eventHandlers);
 	      this.settings.keepTracking = false;
 	      this.resetTimeout(this.lastId, this.settings);
+	
+	      this.idle = this.settings.startAtIdle;
+	      this.visible = !this.settings.startAtIdle;
+	      this.lastId = null;
 	    }
 	  }, {
 	    key: 'restart',
