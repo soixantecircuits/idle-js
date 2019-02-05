@@ -17,7 +17,19 @@ var idle = new idleJs({
   onShow: function () {}, // callback function to be executed when window become visible
   keepTracking: true, // set it to false if you want to be notified only on the first idleness change
   startAtIdle: false // set it to true if you want to start in the idle state
-}).start();
+});
+idle.start();
+
+// In case stopping is needed
+idle.stop();   // stops all tracking
+idle.reset();  // reset visible and idle state to initial values
+idle.start();
+
+// Reset to a specific state
+idle.reset({
+  idle: false,
+  visible: ! document.hidden,
+})
 ```
 
 ## Running examples

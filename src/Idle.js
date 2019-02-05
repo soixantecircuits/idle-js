@@ -27,19 +27,25 @@ class IdleJs {
       recurIdleCall: false
     }
     this.settings = Object.assign({}, this.defaults, options)
-    this.idle = this.settings.startAtIdle
-    this.visible = !this.settings.startAtIdle
     this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange']
     this.lastId = null
+
+    this.reset()
+
+    this.stopListener = (event) => {
+      this.stop()
+    }
   }
 
-  resetTimeout (id, settings) {
+  resetTimeout (id, settings, keepTracking = this.settings.keepTracking) {
     if (this.idle) {
       this.idle = false
       settings.onActive.call()
     }
-    clearTimeout(id)
-    if (this.settings.keepTracking) {
+    if (id) {
+      clearTimeout(id)
+    }
+    if (keepTracking) {
       return this.timeout(this.settings)
     }
   }
@@ -55,11 +61,8 @@ class IdleJs {
   }
 
   start () {
-    window.addEventListener('idle:stop', function (event) {
-      bulkRemoveEventListener(window, this.settings.events)
-      this.settings.keepTracking = false
-      this.resetTimeout(this.lastId, this.settings)
-    })
+    window.addEventListener('idle:stop', this.stopListener)
+
     this.lastId = this.timeout(this.settings)
     bulkAddEventListener(window, this.settings.events, function (event) {
       this.lastId = this.resetTimeout(this.lastId, this.settings)
@@ -79,6 +82,23 @@ class IdleJs {
         }
       }.bind(this))
     }
+  }
+
+  stop () {
+    window.removeEventListener('idle:stop', this.stopListener)
+
+    bulkRemoveEventListener(window, this.settings.events)
+    this.lastId = this.resetTimeout(this.lastId, this.settings, false)
+
+    if (this.settings.onShow || this.settings.onHide) {
+      bulkRemoveEventListener(document, this.visibilityEvents)
+    }
+  }
+
+  reset ({idle = this.settings.startAtIdle,
+          visible = !this.settings.startAtIdle}) {
+    this.idle = idle
+    this.visible = visible
   }
 }
 
