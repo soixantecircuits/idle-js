@@ -27,10 +27,10 @@ class IdleJs {
       recurIdleCall: false
     }
     this.settings = Object.assign({}, this.defaults, options)
-    this.idle = this.settings.startAtIdle
-    this.visible = !this.settings.startAtIdle
     this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange']
     this.lastId = null
+
+    this.reset()
   }
 
   resetTimeout (id, settings) {
@@ -79,6 +79,11 @@ class IdleJs {
         }
       }.bind(this))
     }
+  }
+
+  reset () {
+    this.idle = this.settings.startAtIdle
+    this.visible = !this.settings.startAtIdle
   }
 }
 
