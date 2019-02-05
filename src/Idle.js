@@ -42,7 +42,9 @@ class IdleJs {
       settings.onActive.call()
       this.idle = false
     }
-    clearTimeout(id)
+    if (id) {
+      clearTimeout(id)
+    }
     if (keepTracking) {
       return this.timeout(this.settings)
     }
