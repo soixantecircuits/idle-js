@@ -1,4 +1,4 @@
-var IdleJs = require('../src/Idle.js')
+var IdleJs = require('../../src/Idle.js')
 
 var idle = new IdleJs({
   idle: 2000,
@@ -14,6 +14,6 @@ var idle = new IdleJs({
   onShow: function () {
     console.log('entry.js - show')
   }
-}).start();
+}).start()
 
 console.log('hello')
