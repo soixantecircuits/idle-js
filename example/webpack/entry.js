@@ -14,6 +14,6 @@ var idle = new IdleJs({
   onShow: function () {
     console.log('entry.js - show')
   }
-}).start();
+}).start()
 
 console.log('hello')
