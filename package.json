@@ -66,5 +66,8 @@
   "babelBoilerplateOptions": {
     "entryFileName": "Idle.js",
     "mainVarName": "IdleJs"
+  },
+  "engines": {
+    "node": "< 9"
   }
 }
