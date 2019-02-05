@@ -35,8 +35,8 @@ class IdleJs {
 
   resetTimeout (id, settings) {
     if (this.idle) {
-      settings.onActive.call()
       this.idle = false
+      settings.onActive.call()
     }
     clearTimeout(id)
     if (this.settings.keepTracking) {
