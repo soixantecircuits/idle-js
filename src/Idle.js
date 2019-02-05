@@ -95,9 +95,10 @@ class IdleJs {
     }
   }
 
-  reset () {
-    this.idle = this.settings.startAtIdle
-    this.visible = !this.settings.startAtIdle
+  reset ({idle = this.settings.startAtIdle,
+          visible = !this.settings.startAtIdle}) {
+    this.idle = idle
+    this.visible = visible
   }
 }
 

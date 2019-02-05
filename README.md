@@ -24,6 +24,12 @@ idle.start();
 idle.stop();   // stops all tracking
 idle.reset();  // reset visible and idle state to initial values
 idle.start();
+
+// Reset to a specific state
+idle.reset({
+  idle: false,
+  visible: ! document.hidden,
+})
 ```
 
 ## Running examples
