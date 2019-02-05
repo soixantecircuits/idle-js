@@ -33,13 +33,13 @@ class IdleJs {
     this.reset()
   }
 
-  resetTimeout (id, settings) {
+  resetTimeout (id, settings, keepTracking = this.settings.keepTracking) {
     if (this.idle) {
       settings.onActive.call()
       this.idle = false
     }
     clearTimeout(id)
-    if (this.settings.keepTracking) {
+    if (keepTracking) {
       return this.timeout(this.settings)
     }
   }
@@ -57,8 +57,7 @@ class IdleJs {
   start () {
     window.addEventListener('idle:stop', function (event) {
       bulkRemoveEventListener(window, this.settings.events)
-      this.settings.keepTracking = false
-      this.resetTimeout(this.lastId, this.settings)
+      this.resetTimeout(this.lastId, this.settings, false)
     })
     this.lastId = this.timeout(this.settings)
     bulkAddEventListener(window, this.settings.events, function (event) {
