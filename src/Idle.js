@@ -31,6 +31,10 @@ class IdleJs {
     this.lastId = null
 
     this.reset()
+
+    this.stopListener = (event) => {
+      this.stop()
+    }
   }
 
   resetTimeout (id, settings, keepTracking = this.settings.keepTracking) {
@@ -55,10 +59,8 @@ class IdleJs {
   }
 
   start () {
-    window.addEventListener('idle:stop', function (event) {
-      bulkRemoveEventListener(window, this.settings.events)
-      this.resetTimeout(this.lastId, this.settings, false)
-    })
+    window.addEventListener('idle:stop', this.stopListener)
+
     this.lastId = this.timeout(this.settings)
     bulkAddEventListener(window, this.settings.events, function (event) {
       this.lastId = this.resetTimeout(this.lastId, this.settings)
@@ -77,6 +79,17 @@ class IdleJs {
           }
         }
       }.bind(this))
+    }
+  }
+
+  stop () {
+    window.removeEventListener('idle:stop', this.stopListener)
+
+    bulkRemoveEventListener(window, this.settings.events)
+    this.lastId = this.resetTimeout(this.lastId, this.settings, false)
+
+    if (this.settings.onShow || this.settings.onHide) {
+      bulkRemoveEventListener(document, this.visibilityEvents)
     }
   }
 
