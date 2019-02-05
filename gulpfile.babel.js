@@ -39,8 +39,6 @@ function lint(files) {
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.eslint.failOnError())
-    //.pipe($.jscs())
-    //.pipe($.jscs.reporter('fail'))
     .on('error', onError);
 }
 
@@ -112,7 +110,7 @@ function coverage(done) {
     });
 }
 
-const watchFiles = ['src/**/*', 'example/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
+const watchFiles = ['src/**/*', 'example/**/*', 'package.json', '**/.eslintrc'];
 
 // Run the headless unit tests as you make changes.
 function watch() {
