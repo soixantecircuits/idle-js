@@ -15,7 +15,7 @@ var idle = new idleJs({
   onActive: function () {}, // callback function to be executed after back form idleness
   onHide: function () {}, // callback function to be executed when window become hidden
   onShow: function () {}, // callback function to be executed when window become visible
-  keepTracking: true, // set it to false of you want to track only once
+  keepTracking: true, // set it to false if you want to be notified only on the first idleness change
   startAtIdle: false // set it to true if you want to start in the idle state
 }).start();
 ```
