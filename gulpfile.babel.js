@@ -58,7 +58,6 @@ function lintGulpfile() {
 
 function build() {
   return gulp.src(path.join('src', config.entryFileName))
-  // return gulp.src('./src/idle.js')
     .pipe($.plumber())
     .pipe(webpackStream({
       output: {

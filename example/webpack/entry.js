@@ -1,4 +1,4 @@
-var IdleJs = require('../src/idle.js')
+var IdleJs = require('../src/Idle.js')
 
 var idle = new IdleJs({
   idle: 2000,
