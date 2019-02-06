@@ -21,9 +21,9 @@ var idle = new IdleJs({
 idle.start();
 
 // In case stopping is needed
-idle.stop();   // stops all tracking
-idle.reset();  // reset visible and idle state to initial values
-idle.start();
+idle.stop()   // stops all tracking
+    .reset()  // reset visible and idle state to initial values
+    .start();
 
 // Reset to a specific state
 idle.reset({
