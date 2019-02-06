@@ -1,15 +1,13 @@
 'use strict'
 var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
   events.forEach(function (event) {
-    object.addEventListener(event, function __idle (event) {
-      callback(event)
-    })
+    object.addEventListener(event, callback)
   })
 }
 
-var bulkRemoveEventListener = function bulkRemoveEventListener (object, events) {
+var bulkRemoveEventListener = function bulkRemoveEventListener (object, events, callback) {
   events.forEach(function (event) {
-    object.removeEventListener(event, __idle)
+    object.removeEventListener(event, callback)
   })
 }
 
@@ -34,6 +32,22 @@ class IdleJs {
 
     this.stopListener = (event) => {
       this.stop()
+    }
+    this.idlenessEventsHandler = (event) => {
+      this.lastId = this.resetTimeout(this.lastId, this.settings)
+    }
+    this.visibilityEventsHandler = (event) => {
+      if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
+        if (this.visible) {
+          this.visible = false
+          this.settings.onHide.call()
+        }
+      } else {
+        if (!this.visible) {
+          this.visible = true
+          this.settings.onShow.call()
+        }
+      }
     }
   }
 
@@ -63,23 +77,11 @@ class IdleJs {
   start () {
     window.addEventListener('idle:stop', this.stopListener)
     this.lastId = this.timeout(this.settings)
-    bulkAddEventListener(window, this.settings.events, function (event) {
-      this.lastId = this.resetTimeout(this.lastId, this.settings)
-    }.bind(this))
+
+    bulkAddEventListener(window, this.settings.events, this.idlenessEventsHandler);
+
     if (this.settings.onShow || this.settings.onHide) {
-      bulkAddEventListener(document, this.visibilityEvents, function (event) {
-        if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
-          if (this.visible) {
-            this.visible = false
-            this.settings.onHide.call()
-          }
-        } else {
-          if (!this.visible) {
-            this.visible = true
-            this.settings.onShow.call()
-          }
-        }
-      }.bind(this))
+      bulkAddEventListener(document, this.visibilityEvents, this.visibilityEventsHandler);
     }
 
     return this
@@ -88,11 +90,11 @@ class IdleJs {
   stop () {
     window.removeEventListener('idle:stop', this.stopListener)
 
-    bulkRemoveEventListener(window, this.settings.events)
+    bulkRemoveEventListener(window, this.settings.events, this.idlenessEventsHandler)
     this.lastId = this.resetTimeout(this.lastId, this.settings, false)
 
     if (this.settings.onShow || this.settings.onHide) {
-      bulkRemoveEventListener(document, this.visibilityEvents)
+      bulkRemoveEventListener(document, this.visibilityEvents, this.visibilityEventsHandler)
     }
 
     return this
