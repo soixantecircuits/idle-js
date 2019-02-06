@@ -46,23 +46,56 @@
 
 	var IdleJs = __webpack_require__(1)
 
+	var pauseIdle = function () {
+	  if (idle) {
+	    idle.stop()
+	    document.querySelector('.js-idle-pause').hidden = false
+	    document.querySelector('.js-run').hidden = true
+	    document.querySelector('.js-wait').hidden = true
+	  } else {
+	    console.warn('idle issue', idle)
+	  }
+	}
+	var startIdle = function () {
+	  if (idle) {
+	    idle.start()
+	    document.querySelector('.js-idle-pause').hidden = true
+	    document.querySelector('.js-run').hidden = true
+	    document.querySelector('.js-wait').hidden = false
+	  } else {
+	    console.warn('idle issue', idle)
+	  }
+	}
+
 	var idle = new IdleJs({
 	  idle: 2000,
 	  onIdle: function () {
 	    console.log('entry.js - idle')
+	    document.querySelector('.js-run').hidden = true
+	    document.querySelector('.js-wait').hidden = false
 	  },
 	  onActive: function () {
 	    console.log('entry.js - active')
+	    document.querySelector('.js-run').hidden = false
+	    document.querySelector('.js-wait').hidden = true
 	  },
 	  onHide: function () {
 	    console.log('entry.js - hide')
+	    document.title = '🙋‍ I\'m here, come on!'
 	  },
 	  onShow: function () {
 	    console.log('entry.js - show')
+	    document.title = '💁‍ ok, fine... let\'s talk'
 	  }
 	}).start()
 
-	console.log('hello')
+	document.querySelector('.js-run').hidden = false
+	document.querySelector('.js-wait').hidden = true
+	document.querySelector('.js-idle-pause').hidden = true
+	document.querySelector('#pause-idle').onclick = pauseIdle
+	document.querySelector('#start-idle').onclick = startIdle
+
+	console.log('hello, idle will trigger if you do not move your mouse')
 
 
 /***/ }),
@@ -72,7 +105,7 @@
 	'use strict'
 	var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
 	  events.forEach(function (event) {
-	    object.addEventListener(event, function (event) {
+	    object.addEventListener(event, function __idle (event) {
 	      callback(event)
 	    })
 	  })
@@ -80,7 +113,7 @@
 
 	var bulkRemoveEventListener = function bulkRemoveEventListener (object, events) {
 	  events.forEach(function (event) {
-	    object.removeEventListener(event)
+	    object.removeEventListener(event, __idle)
 	  })
 	}
 
@@ -133,7 +166,6 @@
 
 	  start () {
 	    window.addEventListener('idle:stop', this.stopListener)
-
 	    this.lastId = this.timeout(this.settings)
 	    bulkAddEventListener(window, this.settings.events, function (event) {
 	      this.lastId = this.resetTimeout(this.lastId, this.settings)
@@ -153,6 +185,7 @@
 	        }
 	      }.bind(this))
 	    }
+	    return this
 	  }
 
 	  stop () {

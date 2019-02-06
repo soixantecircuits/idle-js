@@ -1,7 +1,7 @@
 'use strict'
 var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
   events.forEach(function (event) {
-    object.addEventListener(event, function (event) {
+    object.addEventListener(event, function __idle (event) {
       callback(event)
     })
   })
@@ -9,7 +9,7 @@ var bulkAddEventListener = function bulkAddEventListener (object, events, callba
 
 var bulkRemoveEventListener = function bulkRemoveEventListener (object, events) {
   events.forEach(function (event) {
-    object.removeEventListener(event)
+    object.removeEventListener(event, __idle)
   })
 }
 
@@ -62,7 +62,6 @@ class IdleJs {
 
   start () {
     window.addEventListener('idle:stop', this.stopListener)
-
     this.lastId = this.timeout(this.settings)
     bulkAddEventListener(window, this.settings.events, function (event) {
       this.lastId = this.resetTimeout(this.lastId, this.settings)
@@ -82,6 +81,7 @@ class IdleJs {
         }
       }.bind(this))
     }
+    return this
   }
 
   stop () {
