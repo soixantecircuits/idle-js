@@ -8,7 +8,7 @@
 
 ```js
 // Those are the default values
-var idle = new idleJs({
+var idle = new IdleJs({
   idle: 10000, // idle time in ms
   events: ['mousemove', 'keydown', 'mousedown', 'touchstart'], // events that will trigger the idle resetter
   onIdle: function () {}, // callback function to be executed after idle time
