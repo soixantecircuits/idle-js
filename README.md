@@ -36,7 +36,7 @@ idle.reset({
 
 #### Webpack:
 
-* Run the command `webpack ./example/webpack/entry.js ./example/webpack/bundle.js`.
+* Run the command `npx webpack ./example/webpack/entry.js ./example/webpack/bundle.js`.
 * Open `./example/webpack/index.html` in your browser.
 
 #### In browser:

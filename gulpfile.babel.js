@@ -1,62 +1,62 @@
-import gulp from 'gulp';
-import loadPlugins from 'gulp-load-plugins';
-import del from 'del';
-import path from 'path';
-import webpackStream from 'webpack-stream';
-
-import manifest from './package.json';
+import gulp from 'gulp'
+import loadPlugins from 'gulp-load-plugins'
+import del from 'del'
+import path from 'path'
+import webpackStream from 'webpack-stream'
+import manifest from './package.json'
 
 // Load all of our Gulp plugins
-const $ = loadPlugins();
+const $ = loadPlugins()
 
 // Gather the library data from `package.json`
-const config = manifest.babelBoilerplateOptions;
-const mainFile = manifest.main;
-const destinationFolder = path.dirname(mainFile);
-const exportFileName = path.basename(mainFile, path.extname(mainFile));
+const config = manifest.babelBoilerplateOptions
+const mainFile = manifest.main
+const destinationFolder = path.dirname(mainFile)
+const exportFileName = path.basename(mainFile, path.extname(mainFile))
 
-function cleanDist(done) {
-  del([destinationFolder]).then(() => done());
+function cleanDist (done) {
+  del([destinationFolder]).then(() => done())
 }
 
-function cleanTmp(done) {
-  del(['tmp']).then(() => done());
+function cleanTmp (done) {
+  del(['tmp']).then(() => done())
 }
 
-function onError() {
-  $.util.beep();
+function onError () {
+  $.util.beep()
 }
 
 // Lint a set of files
-function lint(files) {
+function lint (files) {
   return gulp.src(files)
     .pipe($.plumber())
     .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.eslint.failOnError())
-    .on('error', onError);
+    .on('error', onError)
 }
 
-function lintSrc() {
-  return lint('src/**/*.js');
+function lintSrc () {
+  return lint('src/**/*.js')
 }
 
-function lintGulpfile() {
-  return lint('gulpfile.babel.js');
+function lintGulpfile () {
+  return lint('gulpfile.babel.js')
 }
 
-function build() {
+function build () {
   return gulp.src(path.join('src', config.entryFileName))
     .pipe($.plumber())
     .pipe(webpackStream({
+      mode: 'production',
       output: {
         filename: exportFileName + '.js',
         libraryTarget: 'umd',
         library: config.mainVarName
       },
       module: {
-        loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
+        rules: [
+          { test: /\.js$/, exclude: /node_modules/, use: { loader: 'babel-loader' } }
         ]
       },
       devtool: 'source-map'
@@ -67,37 +67,26 @@ function build() {
     .pipe($.sourcemaps.init({ loadMaps: true }))
     .pipe($.uglify())
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(destinationFolder));
-}
-
-
-const watchFiles = ['src/**/*', 'example/**/*', 'package.json', '**/.eslintrc'];
-
-// Run the headless unit tests as you make changes.
-function watch() {
-  gulp.watch(watchFiles, ['example']);
+    .pipe(gulp.dest(destinationFolder))
 }
 
 // Remove the built files
-gulp.task('clean', cleanDist);
+gulp.task('clean', cleanDist)
 
 // Remove our temporary files
-gulp.task('clean-tmp', cleanTmp);
+gulp.task('clean-tmp', cleanTmp)
 
 // Lint our source code
-gulp.task('lint-src', lintSrc);
+gulp.task('lint-src', lintSrc)
 
 // Lint this file
-gulp.task('lint-gulpfile', lintGulpfile);
+gulp.task('lint-gulpfile', lintGulpfile)
 
 // Lint everything
-gulp.task('lint', ['lint-src', 'lint-gulpfile']);
+gulp.task('lint', gulp.parallel('lint-src', 'lint-gulpfile'))
 
 // Build two versions of the library
-gulp.task('build', ['lint', 'clean'], build);
-
-// Run the headless unit tests as you make changes.
-gulp.task('watch', watch);
+gulp.task('build', gulp.series('lint', 'clean', build))
 
 // An alias of lint
-gulp.task('default', ['lint']);
+gulp.task('default', gulp.series('lint'))

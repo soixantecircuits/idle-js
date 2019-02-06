@@ -1,4 +1,4 @@
-var IdleJs = require('../../src/Idle.js')
+var IdleJs = require('../../dist/Idle.js')
 
 var pauseIdle = function () {
   if (idle) {

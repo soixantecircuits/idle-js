@@ -1,4 +1,6 @@
 'use strict'
+require('@babel/polyfill')
+
 var bulkAddEventListener = function bulkAddEventListener (object, events, callback) {
   events.forEach(function (event) {
     object.addEventListener(event, callback)
