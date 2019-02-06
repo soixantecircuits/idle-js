@@ -81,6 +81,7 @@ class IdleJs {
         }
       }.bind(this))
     }
+
     return this
   }
 
@@ -93,11 +94,15 @@ class IdleJs {
     if (this.settings.onShow || this.settings.onHide) {
       bulkRemoveEventListener(document, this.visibilityEvents)
     }
+
+    return this
   }
 
   reset ({ idle = this.settings.startAtIdle, visible = !this.settings.startAtIdle } = {}) {
     this.idle = idle
     this.visible = visible
+
+    return this
   }
 }
 
