@@ -31,6 +31,9 @@
     "hugohil <hugo@soixantecircuits.fr> (https://github.com/hugohil)",
     "Martin Hradil <mhradil@redhat.com> (https://github.com/himdel)"
   ],
+  "files": [
+    "/dist"
+  ],
   "dependencies": {
     "@babel/polyfill": "^7.2.5"
   },
