@@ -116,6 +116,10 @@ class IdleJs {
 
     return this
   }
+
+  set (options) {
+    this.settings = Object.assign(this.settings, options)
+  }
 }
 
 module.exports = IdleJs
