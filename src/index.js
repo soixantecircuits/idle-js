@@ -28,7 +28,7 @@ class IdleJs {
     }
     this.settings = Object.assign({}, this.defaults, options)
     this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange']
-    this.lastId = null
+    this.clearTimeout = null
 
     this.reset()
 
@@ -36,7 +36,7 @@ class IdleJs {
       this.stop()
     }
     this.idlenessEventsHandler = (event) => {
-      this.lastId = this.resetTimeout(this.lastId, this.settings)
+      this.resetTimeout(this.settings)
     }
     this.visibilityEventsHandler = (event) => {
       if (document.hidden || document.webkitHidden || document.mozHidden || document.msHidden) {
@@ -53,32 +53,40 @@ class IdleJs {
     }
   }
 
-  resetTimeout (id, settings, keepTracking = this.settings.keepTracking) {
+  resetTimeout (settings, keepTracking = this.settings.keepTracking) {
     if (this.idle) {
       this.idle = false
       settings.onActive.call()
     }
-    if (id) {
-      clearTimeout(id)
+    if (this.clearTimeout) {
+      this.clearTimeout()
+      this.clearTimeout = null
     }
     if (keepTracking) {
-      return this.timeout(this.settings)
+      this.timeout(this.settings)
     }
   }
 
   timeout (settings) {
-    var timer = (this.settings.recurIdleCall) ? setInterval : setTimeout
-    var id
-    id = timer(function () {
+    var timer = (this.settings.recurIdleCall) ? {
+      set: setInterval,
+      clear: clearInterval,
+    } : {
+      set: setTimeout,
+      clear: clearTimeout,
+    };
+
+    var id = timer.set(function () {
       this.idle = true
       this.settings.onIdle.call()
     }.bind(this), this.settings.idle)
-    return id
+
+    this.clearTimeout = () => timer.clear(id);
   }
 
   start () {
     window.addEventListener('idle:stop', this.stopListener)
-    this.lastId = this.timeout(this.settings)
+    this.timeout(this.settings)
 
     bulkAddEventListener(window, this.settings.events, this.idlenessEventsHandler);
 
@@ -93,7 +101,7 @@ class IdleJs {
     window.removeEventListener('idle:stop', this.stopListener)
 
     bulkRemoveEventListener(window, this.settings.events, this.idlenessEventsHandler)
-    this.lastId = this.resetTimeout(this.lastId, this.settings, false)
+    this.resetTimeout(this.settings, false)
 
     if (this.settings.onShow || this.settings.onHide) {
       bulkRemoveEventListener(document, this.visibilityEvents, this.visibilityEventsHandler)
