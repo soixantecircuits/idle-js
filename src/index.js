@@ -36,6 +36,10 @@ class IdleJs {
       this.stop()
     }
     this.idlenessEventsHandler = (event) => {
+      if (this.idle) {
+        this.idle = false
+        this.settings.onActive.call()
+      }
       this.resetTimeout(this.settings)
     }
     this.visibilityEventsHandler = (event) => {
@@ -54,10 +58,6 @@ class IdleJs {
   }
 
   resetTimeout (settings, keepTracking = this.settings.keepTracking) {
-    if (this.idle) {
-      this.idle = false
-      settings.onActive.call()
-    }
     if (this.clearTimeout) {
       this.clearTimeout()
       this.clearTimeout = null
