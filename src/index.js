@@ -70,11 +70,11 @@ class IdleJs {
 
   timeout (settings) {
     var timer = (this.settings.recurIdleCall) ? {
-      set: setInterval,
-      clear: clearInterval,
+      set: setInterval.bind(window),
+      clear: clearInterval.bind(window),
     } : {
-      set: setTimeout,
-      clear: clearTimeout,
+      set: setTimeout.bind(window),
+      clear: clearTimeout.bind(window),
     };
 
     var id = timer.set(function () {
