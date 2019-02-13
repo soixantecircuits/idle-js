@@ -26,6 +26,7 @@ class IdleJs {
       startAtIdle: false, // set it to true if you want to start in the idle state
       recurIdleCall: false
     }
+    this.throwOnBadKey(Object.keys(options), Object.keys(this.defaults))
     this.settings = Object.assign({}, this.defaults, options)
     this.visibilityEvents = ['visibilitychange', 'webkitvisibilitychange', 'mozvisibilitychange', 'msvisibilitychange']
     this.clearTimeout = null
@@ -117,7 +118,16 @@ class IdleJs {
     return this
   }
 
+  throwOnBadKey (keys, goodKeys) {
+    keys.forEach(function (key) {
+      if (! goodKeys.includes(key)) {
+        throw `set: Unknown key ${key}`
+      }
+    })
+  }
+
   set (options) {
+    this.throwOnBadKey(Object.keys(options), Object.keys(this.defaults))
     this.settings = Object.assign(this.settings, options)
   }
 }
