@@ -25,7 +25,9 @@
 
   <script type="text/javascript" src="../../dist/Idle.js"></script>
   <script type="text/javascript">
-    new IdleJs({
+    var initialDelay = 2000
+    console.log(`initialize trigger in: ${initialDelay}`)
+    var idle = new IdleJs({
       onIdle: function(){
         document.querySelector('#status').classList.toggle('idle');
         document.querySelector('#status').textContent = 'Idle!';
@@ -45,9 +47,14 @@
           document.querySelector('#visibility').textContent = 'Visible!';
         }, 250);
       },
-      idle: 2000,
+      idle: initialDelay,
       keepTracking: true
     }).start();
+    window.setTimeout( () => {
+      let newDelay = 5000;
+      idle.set({idle: newDelay});
+      console.log(`now triggering in: ${newDelay}`)
+    }, 15*1000)
   </script>
 </body>
 </html>

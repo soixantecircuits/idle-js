@@ -20,6 +20,8 @@ var startIdle = function () {
     console.warn('idle issue', idle)
   }
 }
+var timeoutSetEdit = 15 * 1000
+var newDelay = 10 * 1000
 
 var idle = new IdleJs({
   idle: 2000,
@@ -50,3 +52,9 @@ document.querySelector('#pause-idle').onclick = pauseIdle
 document.querySelector('#start-idle').onclick = startIdle
 
 console.log('hello, idle will trigger if you do not move your mouse')
+console.log(`in ${timeoutSetEdit} seconds we will change the delay before idle is triggering to ${newDelay}`)
+
+window.setTimeout(() => {
+  idle.set({ idle: newDelay })
+  console.log(`now triggering in: ${newDelay}`)
+}, timeoutSetEdit)
