@@ -14,7 +14,10 @@
     "type": "git",
     "url": "https://github.com/soixantecircuits/idle-js"
   },
-  "browserslist": ["defaults", "not IE 11"],
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ],
   "devDependencies": {
     "eslint": "^8.6.0",
     "eslint-plugin-compat": "^4.0.0",
