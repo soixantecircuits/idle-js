@@ -1,4 +1,3 @@
-import './style.css'
 import { IdleJs } from './lib/main.js'
 
 var initialDelay = 2000
