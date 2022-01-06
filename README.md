@@ -1,44 +1,75 @@
 # idle-js
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+⏲
 
-`npm install idle-js --save`
+A really simple utility module for tracking user activity on a tab. Usefull to change the tab name, or creating micro interaction in your webapp.
 
-## Usage
+- returning to a particular after no activity identified
+- display a modal depending on activity
+- change things while the user is away
+- create anything funny :)
+
+>Warning IE11 is not supported by default anymore. If you want to use it, you might want to add a polyfill for `Object.assign` -> https://www.jsdelivr.com/package/npm/polyfill-object-assign
+
+## Install
+
+`npm i idle-js`
+
+## Browsers support
+
+![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+
+## Usage in your script
 
 ```js
 // Those are the default values
 var idle = new IdleJs({
   idle: 10000, // idle time in ms
   events: ['mousemove', 'keydown', 'mousedown', 'touchstart'], // events that will trigger the idle resetter
-  onIdle: function () {}, // callback function to be executed after idle time
-  onActive: function () {}, // callback function to be executed after back form idleness
-  onHide: function () {}, // callback function to be executed when window become hidden
-  onShow: function () {}, // callback function to be executed when window become visible
+  onIdle: , // callback function to be executed after idle time
+  onActive: , // callback function to be executed after back form idleness
+  onHide: , // callback function to be executed when window become hidden
+  onShow: , // callback function to be executed when window become visible
   keepTracking: true, // set it to false if you want to be notified only on the first idleness change
   startAtIdle: false // set it to true if you want to start in the idle state
-});
-idle.start();
+})
+```
 
-// In case stopping is needed
-idle.stop()   // stops all tracking
+To start observing the state of the tab:
+
+`idle.start()`
+
+If you need to stop observing:
+
+
+`idle.stop()`   // stops all tracking
+
+You can then reset and start again:
+
+```
+idle.stop()
     .reset()  // reset visible and idle state to initial values
-    .start();
+    .start()  // restart
+```
 
-// Reset to a specific state
+Reset to a specific state
+
+```
 idle.reset({
   idle: false,
   visible: ! document.hidden,
 })
 ```
 
-## Running examples
+## Running example
 
-#### Webpack:
+### Simply start the server [Vite](https://vitejs.dev/)
 
-* Run the command `npx webpack ./example/webpack/entry.js ./example/webpack/bundle.js`.
-* Open `./example/webpack/index.html` in your browser.
+`pnpm dev -- --port 3030`
 
-#### In browser:
+Need to choose an other port ? `pnpm dev -- --port 6060`
 
-* Open `./example/vanilla/index.html`
+Open the local url, in your browser: `http://localhost:3030` or `http://localhost:THE_PORT_YOU_CHOOSE` 
+
