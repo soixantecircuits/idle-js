@@ -41,5 +41,13 @@
     "gabrielstuff <gabriel@soixantecircuits.fr> (http://twitter.com/gabrielstuff)",
     "hugohil <hugo@soixantecircuits.fr> (https://github.com/hugohil)",
     "Martin Hradil <mhradil@redhat.com> (https://github.com/himdel)"
-  ]
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/idle-js.es.js",
+      "require": "./dist/idle-js.umd.js"
+    }
+  },
+  "main": "./dist/idle-js.umd.js",
+  "module": "./dist/idle-js.es.js"
 }
