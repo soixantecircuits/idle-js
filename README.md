@@ -1,75 +1,67 @@
 # idle-js
 
-⏲
+Detect user idleness. Zero dependencies, framework-agnostic, TypeScript-first.
 
-A really simple utility module for tracking user activity on a tab. Usefull to change the tab name, or creating micro interaction in your webapp.
-
-- returning to a particular after no activity identified
+- return to a page after no activity
 - display a modal depending on activity
 - change things while the user is away
-- create anything funny :)
-
->Warning IE11 is not supported by default anymore. If you want to use it, you might want to add a polyfill for `Object.assign` -> https://www.jsdelivr.com/package/npm/polyfill-object-assign
 
 ## Install
 
-`npm i idle-js`
-
-## Browsers support
-
-![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![IE](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
---- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
-
-## Usage in your script
-
-```js
-// Those are the default values
-var idle = new IdleJs({
-  idle: 10000, // idle time in ms
-  events: ['mousemove', 'keydown', 'mousedown', 'touchstart'], // events that will trigger the idle resetter
-  onIdle: , // callback function to be executed after idle time
-  onActive: , // callback function to be executed after back form idleness
-  onHide: , // callback function to be executed when window become hidden
-  onShow: , // callback function to be executed when window become visible
-  keepTracking: true, // set it to false if you want to be notified only on the first idleness change
-  startAtIdle: false // set it to true if you want to start in the idle state
-})
+```sh
+npm i idle-js
 ```
 
-To start observing the state of the tab:
+## Usage
 
-`idle.start()`
+```ts
+import { IdleJs } from "idle-js";
 
-If you need to stop observing:
+const idle = new IdleJs({
+  idle: 10000, // ms without activity before onIdle
+  // events that reset the timer (scroll uses capture, all passive)
+  events: ["mousemove", "mousedown", "keydown", "touchstart", "scroll", "wheel"],
+  onIdle: () => console.log("idle"),
+  onActive: () => console.log("active again"),
+  onHide: () => console.log("tab hidden"),
+  onShow: () => console.log("tab visible"),
+  keepTracking: true,
+  startAtIdle: false,
+  recurIdleCall: false,
+  // target: iframe.contentWindow, // listen inside an iframe (#25)
+}).start();
 
-
-`idle.stop()`   // stops all tracking
-
-You can then reset and start again:
-
+idle.stop(); // stop all tracking
+idle.stop().reset().start(); // restart from initial state
+idle.reset({ idle: false }); // reset to a specific state
+idle.set({ idle: 5000 }); // change timeout at runtime, re-arms timer (#19)
+console.log(idle.lastActive); // timestamp of last activity
 ```
-idle.stop()
-    .reset()  // reset visible and idle state to initial values
-    .start()  // restart
+
+SSR-safe: `start()` is a no-op without `window`.
+
+Background tabs / locked mobile (#29): on visibility return the wall-clock
+elapsed time since `lastActive` is compared against `idle`, so sleep counts as
+inactivity even though timers are frozen.
+
+Scroll (#26): listeners use `{ capture: event === 'scroll', passive: true }`.
+
+## Example
+
+```sh
+vp install
+vp dev   # http://localhost:5173
 ```
 
-Reset to a specific state
+## Development
 
+```sh
+vp install
+vp check   # fmt + lint + typecheck
+vp test    # vitest
+vp pack    # build dist/ (esm + cjs + dts)
 ```
-idle.reset({
-  idle: false,
-  visible: ! document.hidden,
-})
-```
 
-## Running example
+## Security
 
-### Simply start the server [Vite](https://vitejs.dev/)
-
-`pnpm dev -- --port 3030`
-
-Need to choose an other port ? `pnpm dev -- --port 6060`
-
-Open the local url, in your browser: `http://localhost:3030` or `http://localhost:THE_PORT_YOU_CHOOSE` 
-
+See [SECURITY.md](./SECURITY.md). Report vulnerabilities via GitHub Security Advisories.

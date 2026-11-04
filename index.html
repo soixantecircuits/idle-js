@@ -1,19 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IdleJS Demo</title>
+    <title>idle-js v2 demo</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 640px;
+        margin: 40px auto;
+        padding: 0 16px;
+      }
+      #status,
+      #visibility {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin: 8px 0;
+      }
+      .idle {
+        background: #fff3cd;
+        border-color: #ffc107;
+      }
+      #lastActive {
+        color: #666;
+        font-size: 13px;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <h1>Vanilla idle-js example</h1>
+    <h1>idle-js v2 example</h1>
+    <p>Move the mouse, press keys, scroll or touch. Idle fires after 3s.</p>
     <div id="status">The tab is active!</div>
-    <div id="visibility">You are viewing the tab, it is visible!</div>
-    <!--<div id="content scrolling" style="width: 200px; margin-top: 20px; overflow: scroll; height: 300px;">
-      Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-      The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-    </div>-->
-    <script type="module" src="/main.js"></script>
+    <div id="visibility">Tab is visible</div>
+    <div id="lastActive"></div>
+    <label
+      >Idle timeout (ms): <input id="timeout" type="number" value="3000" min="500" step="500"
+    /></label>
+    <button id="apply">Apply via set()</button>
+    <button id="stop">Stop</button>
+    <button id="start">Start</button>
+    <script type="module" src="/examples/vanilla/main.ts"></script>
   </body>
 </html>
